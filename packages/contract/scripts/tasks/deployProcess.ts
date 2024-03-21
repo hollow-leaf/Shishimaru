@@ -67,7 +67,7 @@ task("deploy:nftFactory", "Deploy NFT factory")
     const [signer]: any = await hre.ethers.getSigners()
     const feeData = await hre.ethers.provider.getFeeData()
 
-    const nftContractFactory = await hre.ethers.getContractFactory("contracts/PoolFactory.sol:PoolFactory", )
+    const nftContractFactory = await hre.ethers.getContractFactory("contracts/CouponFactory.sol:CouponFactory", )
     const nftDeployContract: any = await nftContractFactory.connect(signer).deploy(
       //my wallet address
       {
@@ -75,13 +75,13 @@ task("deploy:nftFactory", "Deploy NFT factory")
         maxFeePerGas: feeData.maxFeePerGas,
         // gasLimit: 6000000, // optional: for some weird infra network
     })
-    console.log(`PoolFactory.sol deployed to ${nftDeployContract.address}`)
+    console.log(`CouponFactory.sol deployed to ${nftDeployContract.address}`)
 
     const address = {
       main: nftDeployContract.address,
     }
     const addressData = JSON.stringify(address)
-    writeFileSync(`scripts/address/${hre.network.name}/`, "PoolFactory.json", addressData)
+    writeFileSync(`scripts/address/${hre.network.name}/`, "CouponFactory.json", addressData)
 
     await nftDeployContract.deployed()
 
@@ -91,7 +91,7 @@ task("deploy:nftFactory", "Deploy NFT factory")
       try {
         await hre.run("verify:verify", {
           address: nftDeployContract.address,
-          contract: "contracts/PoolFactory.sol:PoolFactory",
+          contract: "contracts/CouponFactory.sol:CouponFactory",
         })
       } catch (e) {
         console.log(e)

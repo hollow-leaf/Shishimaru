@@ -2,7 +2,6 @@ import { HardhatUserConfig } from "hardhat/config"
 import { NetworkUserConfig } from "hardhat/types"
 // hardhat plugin
 import "@nomiclabs/hardhat-ethers"
-// import "@nomicfoundation/hardhat-verify"
 import "@nomicfoundation/hardhat-toolbox"
 
 import { config as dotenvConfig } from "dotenv"
@@ -23,6 +22,9 @@ const chainIds = {
   quorum: 570,
   opbnb: 204,
   "opbnb-testnet": 5611,
+  zircuit: 48899,
+  "scroll-sepolia-testnet": 534351,
+  "op-sepolia": 11155420,
 }
 
 // Ensure that we have all the environment variables we need.
@@ -47,6 +49,15 @@ function getChainConfig (chain: keyof typeof chainIds): NetworkUserConfig {
       break
     case "opbnb-testnet":
       jsonRpcUrl = "https://opbnb-testnet-rpc.bnbchain.org"
+      break
+    case "zircuit":
+      jsonRpcUrl = "https://zircuit1.p2pify.com"
+      break
+    case "scroll-sepolia-testnet":
+      jsonRpcUrl = "https://scroll-sepolia.blockpi.network/v1/rpc/public"
+      break
+    case "op-sepolia":
+      jsonRpcUrl = "https://sepolia.optimism.io"
       break
     default:
       jsonRpcUrl = `https://${chain}.infura.io/v3/${infuraApiKey}`
@@ -136,6 +147,27 @@ const config: HardhatUserConfig = {
         apiURL: "https://api-opbnb-testnet.bscscan.com/api",
         browserURL: "https://opbnb-testnet.bscscan.com/",
       },
+    },{
+      network: "zircuit",
+      chainId: chainIds["zircuit"],
+      urls: {
+        apiURL: "https://explorer.zircuit.com/contract-verifaction",
+        browserURL: "https://explorer.zircuit.com"
+      }
+    },{
+      network: "scroll-sepolia-testnet",
+      chainId: chainIds["scroll-sepolia-testnet"],
+      urls: {
+        apiURL: "https://api-sepolia.scrollscan.com/api",
+        browserURL: "https://sepolia.scrollscan.com"
+      }
+    },{
+      network: "op-sepolia",
+      chainId: chainIds["op-sepolia"],
+      urls: {
+        apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+        browserURL: "https://sepolia-optimism.etherscan.io"
+      }
     }],
   },
 

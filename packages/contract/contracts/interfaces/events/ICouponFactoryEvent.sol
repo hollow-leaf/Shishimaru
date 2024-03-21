@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-interface IPoolFactoryEvent {
-    event PoolCreated(address indexed issuer_, address indexed pool_, string indexed name_, address fundAsset_);
+interface ICouponFactoryEvent {
+    event CouponCreated(address indexed issuer_, address indexed Coupon_, string indexed name_, address fundAsset_);
 
     event ProtocolFeeRateSet(uint256 protocolFeeRate_);
 

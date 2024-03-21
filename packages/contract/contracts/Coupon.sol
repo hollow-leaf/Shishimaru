@@ -6,12 +6,12 @@ import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { UD60x18, ud } from "@prb/math/src/UD60x18.sol";
 
-import { IPoolFactory } from "./interfaces/IPoolFactory.sol";
-import { IPool } from "./interfaces/IPool.sol";
+import { ICouponFactory } from "./interfaces/ICouponFactory.sol";
+import { ICoupon } from "./interfaces/ICoupon.sol";
 
-/// @title Pool
-/// @dev Contract for creating and managing pools
-contract Pool is ERC1155, IPool {
+/// @title Coupon
+/// @dev Contract for creating and managing Coupons
+contract Coupon is ERC1155, ICoupon {
     IERC20 public fundAsset;
     address public issuer;
     uint256 public totalDeposit;
@@ -28,7 +28,7 @@ contract Pool is ERC1155, IPool {
 
     mapping(string => uint256) public nameToId;
 
-    IPoolFactory private _poolFactory;
+    ICouponFactory private _CouponFactory;
 
     /// @dev Modifier to check if the message sender is the issuer
     modifier onlyIssuer() {
@@ -36,20 +36,20 @@ contract Pool is ERC1155, IPool {
         _;
     }
 
-    modifier onlyPoolFactory() {
-        require(msg.sender == address(_poolFactory), "only poolFactory");
+    modifier onlyCouponFactory() {
+        require(msg.sender == address(_CouponFactory), "only CouponFactory");
         _;
     }
 
-    /// @dev Constructor to initialize the Pool contract
-    /// @param poolFactory_ Address of the pool factory
+    /// @dev Constructor to initialize the Coupon contract
+    /// @param CouponFactory_ Address of the Coupon factory
     /// @param _fundAsset Address of the fund
     /// @param _issuer Address of the issuer
-    constructor(address poolFactory_, address _fundAsset, address _issuer) ERC1155("") {
+    constructor(address CouponFactory_, address _fundAsset, address _issuer) ERC1155("") {
         require(_fundAsset != address(0), "fund is 0x00");
         require(_issuer != address(0), "issuer is 0x00");
 
-        _poolFactory = IPoolFactory(poolFactory_);
+        _CouponFactory = ICouponFactory(CouponFactory_);
         fundAsset = IERC20(_fundAsset);
         issuer = _issuer;
     }
@@ -58,13 +58,13 @@ contract Pool is ERC1155, IPool {
                         EXTERNAL NON-CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
 
-    /// @dev Add new NFT to the pool
+    /// @dev Add new NFT to the Coupon
     /// @param _minter Address of the minter
     /// @param _mintPrice Price to mint the NFT
     /// @param _name Name of the NFT
     /// @param _metadataURI URI of the NFT metadata
     /// @return id ID of the NFT
-    function addNewNFT(address _minter ,uint256 _mintPrice, string memory _name, string memory _metadataURI) public onlyPoolFactory returns (uint256 id){
+    function addNewNFT(address _minter ,uint256 _mintPrice, string memory _name, string memory _metadataURI) public onlyCouponFactory returns (uint256 id){
         require(_minter == issuer, "only issuer");
         NFT memory newNFT;
         newNFT = NFT({
@@ -103,48 +103,10 @@ contract Pool is ERC1155, IPool {
         return true;
     }
 
-    /// @dev mint NFTs to the specified address.
-    /// @param to_ the address to mint NFTs to.
-    /// @param ids_ the ids of the NFTs to mint.
-    /// @param amounts_ the amounts of NFTs to mint.
-    /// @return true if the minting was successful.
-    function mintBatch(
-        address to_,
-        uint256[] memory ids_,
-        uint256[] memory amounts_
-    )
-        external
-        returns (bool)
-    {
-        require(to_ != address(0), "to is 0x00");
-        require(ids_.length == amounts_.length, "length mismatch");
-
-        uint256 totalTransferAmount = 0;
-        for (uint256 i = 0; i < ids_.length; ++i) {
-            require(amounts_[i] > 0, "amount must > zero");
-
-            totalTransferAmount += nfts[i].mintPrice * amounts_[i];
-            nfts[i].totalSupplys += amounts_[i];
-        }
-
-        require(
-            fundAsset.transferFrom(to_, address(this), totalTransferAmount),
-            "transfer fund failed"
-        );
-
-        _mintBatch(to_, ids_, amounts_, "");
-        // emit MintBatch(to_, ids_, amounts_);
-
-        userDepositAmounts[to_] += totalTransferAmount;
-        totalDeposit += totalTransferAmount;
-
-        return true;
-    }
-
-    /// @dev withdraw the fund from the pool if the pool is closed and the target is reached.
+    /// @dev withdraw the fund from the Coupon if the Coupon is closed and the target is reached.
     /// @notice this function can only be called by the issuer.
     function issuerWithdraw() external override onlyIssuer {
-        uint256 protocolFeeRate = _poolFactory.protocolFeeRate();
+        uint256 protocolFeeRate = _CouponFactory.protocolFeeRate();
         uint256 withdrawAmount = fundAsset.balanceOf(address(this));
 
         uint256 protocolFee = withdrawAmount * protocolFeeRate / 1e18;
@@ -154,20 +116,11 @@ contract Pool is ERC1155, IPool {
         require(fundAsset.transfer(issuer, withdrawAmount), "transfer fund failed");
 
         if (protocolFee > 0) {
-            require(fundAsset.transfer(address(_poolFactory), protocolFee), "transfer fee failed");
+            require(fundAsset.transfer(address(_CouponFactory), protocolFee), "transfer fee failed");
         }
 
         emit IssuerWithdrawal(issuer, withdrawAmount);
     }
-
-    // /// @dev set the issuer of the pool.
-    // /// @param newIssuer_ the new issuer of the pool.
-    // /// @notice this function can only be called by the issuer.
-    // function setIssuer(address _oldIssuer, address newIssuer_) external onlyPoolFactory {
-    //     require(_oldIssuer == issuer, "not issuer");
-    //     require(newIssuer_ != address(0), "issuer is 0x00");
-    //     issuer = newIssuer_;
-    // }
 
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL CONSTANT FUNCTIONS

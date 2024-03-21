@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import { IPoolEvent } from "./events/IPoolEvent.sol";
+import { ICouponEvent } from "./events/ICouponEvent.sol";
 
-interface IPool is IPoolEvent {
+interface ICoupon is ICouponEvent {
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL NON-CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
