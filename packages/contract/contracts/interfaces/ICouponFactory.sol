@@ -2,12 +2,18 @@
 pragma solidity ^0.8.0;
 
 import { ICouponFactoryEvent } from "./events/ICouponFactoryEvent.sol";
-
 interface ICouponFactory is ICouponFactoryEvent {
+    struct Place{
+        // decimal 8
+        uint256 Latitude;
+        uint256 Longitude;
+    }
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL NON-CONSTANT FUNCTIONS
     //////////////////////////////////////////////////////////////////////////*/
-    function createCoupon(address fundAsset, string memory _name) external returns (address Coupon_);
+    function register(uint256 months_) external;
+
+    function createCoupon(string memory _name, uint256 latitude_, uint256 longitude_) external returns (address Coupon_);
 
     function setProtocolFeeRate(uint256 protocolFeeRate_) external;
 
