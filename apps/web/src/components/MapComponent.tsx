@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
@@ -32,10 +33,6 @@ interface MyDoggy {
   position: [number, number];
   popupText: string;
   iconUrl: string;
-}
-interface WalkData {
-  steps: number;
-  time: number; // Time in seconds
 }
 
 const CustomMarker: React.FC<CustomMarkerProps> = ({
@@ -204,6 +201,7 @@ export default function MapComponent() {
         zoom={13}
         style={{ height: "100vh", borderRadius: "10px" }}
         scrollWheelZoom={true}
+        className="z-0"
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -242,14 +240,14 @@ export default function MapComponent() {
         className="flex flex-col items-center justify-center w-1/2  p-4 bg-white rounded-lg shadow-lg"
       >
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white  font-bold py-2 px-4 rounded mb-1"
+          className="bg-light-blue text-white  font-bold py-2 px-4 rounded mb-1"
           onClick={toggleWalking} 
         >
           {isWalking!="stopWalking" ? 'Stop Walking' : (walkData.steps == 0 ?'Start Walking':'Keep Walking')}
         </button>
         {(walkData.steps != 0 && isWalking=="stopWalking") && 
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-bubble-gum text-white font-bold py-2 px-4 rounded"
               onClick={claimReward}
             >
               Claim Reward

@@ -7,7 +7,7 @@ import Testimonials from '@/components/Testimonials'
 import Hero from '@/components/Hero'
 export default function App() {
     return (
-        <div className='bg-primary w-full overflow-hidden'>
+        <div className='bg-dark-gray w-full overflow-hidden'>
           <div className={`bg-primary ${styles.flexStart}`}>
             <div className={`${styles.boxWidth}`}>
               <Hero />

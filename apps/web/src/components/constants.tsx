@@ -4,20 +4,24 @@ import {
   send,
   shield,
   star,
-} from "../assets";
+} from "../app/assets";
 
 export const navLinks = [
   {
-    id: "Home",
+    id: "/",
     title: "Home",
   },
   {
-    id: "Github",
-    title: "Github",
+    id: "map",
+    title: "Map",
   },
   {
-    id: "Launch App",
-    title: "Launch App",
+    id: "collection",
+    title: "Collection",
+  },
+  {
+    id: "store",
+    title: "Store",
   },
 ];
 
