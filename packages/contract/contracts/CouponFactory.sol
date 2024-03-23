@@ -80,9 +80,9 @@ contract CouponFactory is ICouponFactory, Ownable {
         emit ERC1155Minted(msg.sender, _name, _amount, _tokenId);
     }
 
-    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice, string memory _name, string memory _metadataURI) external override noExpired(msg.sender){
-        uint256 id = Coupon(nameToAddress[_ERC1155name]).addNewNFT(msg.sender,_mintPrice,  _name, _metadataURI);
-        emit ERC1155AddNewNFT(_ERC1155name, _mintPrice, _name, _metadataURI, id);
+    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice,uint256 _totalSupplys, string memory _name, string memory _metadataURI) external override noExpired(msg.sender){
+        uint256 id = Coupon(nameToAddress[_ERC1155name]).addNewNFT(msg.sender,_mintPrice, _totalSupplys, _name, _metadataURI);
+        emit ERC1155AddNewNFT(_ERC1155name, _mintPrice, _totalSupplys, _name, _metadataURI, id);
     }
 
     /*//////////////////////////////////////////////////////////////////////////

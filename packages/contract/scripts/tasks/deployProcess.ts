@@ -26,13 +26,15 @@ task("deploy:token", "Deploy Token")
     await hre.run("compile")
     const [signer]: any = await hre.ethers.getSigners()
     const feeData = await hre.ethers.provider.getFeeData()
-
+    const balance = await hre.ethers.provider.getBalance(signer.address)
+    console.log(`balance: ${balance}`)
+    console.log(`maxPriorityFeePerGas: ${feeData.maxPriorityFeePerGas}`)
     const pawPointFactory = await hre.ethers.getContractFactory("contracts/Pawpoint.sol:Pawpoint", )
-    const amount = BigInt(100000000000000)
+    const amount = BigInt("1000000000000000000000000000000")
     const pawPointDeployContract: any = await pawPointFactory.connect(signer).deploy(amount, {
       maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
       maxFeePerGas: feeData.maxFeePerGas,
-      gasLimit: 6000000, // optional: for some weird infra network
+      gasLimit: 3000000, // optional: for some weird infra network
     })
     console.log(`Pawpoint.sol deployed to ${pawPointDeployContract.address}`)
 
@@ -50,7 +52,7 @@ task("deploy:token", "Deploy Token")
       try {
         await hre.run("verify:verify", {
           address: pawPointDeployContract.address,
-          constructorArguments: [100000000000000],
+          constructorArguments: ["1000000000000000000000000000000"],
           contract: "contracts/Pawpoint.sol:Pawpoint",
         })
       } catch (e) {
@@ -68,8 +70,6 @@ task("deploy:nftFactory", "Deploy NFT factory")
     const feeData = await hre.ethers.provider.getFeeData()
     const Pawpoint = readFileSync(`scripts/address/${hre.network.name}/`, "Pawpoint.json")
     const pawpointAddress = JSON.parse(Pawpoint).main
-    const latitude = 12319283
-    const longitude = 12359283
     const nftContractFactory = await hre.ethers.getContractFactory("contracts/CouponFactory.sol:CouponFactory", )
     const nftDeployContract: any = await nftContractFactory.connect(signer).deploy(
         pawpointAddress,

@@ -18,6 +18,7 @@ contract Coupon is ERC1155, ICoupon {
     struct NFT {
         uint256 mintPrice;
         uint256 totalSupplys;
+        uint256 totalMinted;
         string name;
         string metadataURI;
     }
@@ -61,15 +62,17 @@ contract Coupon is ERC1155, ICoupon {
     /// @dev Add new NFT to the Coupon
     /// @param _minter Address of the minter
     /// @param _mintPrice Price to mint the NFT
+    /// @param _totalSupplys Total supply of the NFT
     /// @param _name Name of the NFT
     /// @param _metadataURI URI of the NFT metadata
     /// @return id ID of the NFT
-    function addNewNFT(address _minter ,uint256 _mintPrice, string memory _name, string memory _metadataURI) public onlyCouponFactory returns (uint256 id){
+    function addNewNFT(address _minter ,uint256 _mintPrice,uint256 _totalSupplys, string memory _name, string memory _metadataURI) public onlyCouponFactory returns (uint256 id){
         require(_minter == issuer, "only issuer");
         NFT memory newNFT;
         newNFT = NFT({
                 mintPrice: _mintPrice,
-                totalSupplys: 0,
+                totalSupplys: _totalSupplys,
+                totalMinted: 0,
                 name: _name,
                 metadataURI: _metadataURI
             });
@@ -86,6 +89,7 @@ contract Coupon is ERC1155, ICoupon {
     function mint(address to_, uint256 id_, uint256 amount_) external returns (bool) {
         require(to_ != address(0), "to is 0x00");
         require(amount_ > 0, "amount must > zero");
+        require(nfts[id_].totalMinted + amount_ <= nfts[id_].totalSupplys, "exceed total supply");  
 
         uint256 transferAmount = nfts[id_].mintPrice * amount_;
 
@@ -97,7 +101,7 @@ contract Coupon is ERC1155, ICoupon {
         // emit Mint(to_, id_, amount_);
 
         userDepositAmounts[to_] += transferAmount;
-        nfts[id_].totalSupplys += amount_;
+        nfts[id_].totalMinted += amount_;
         totalDeposit += transferAmount;
 
         return true;

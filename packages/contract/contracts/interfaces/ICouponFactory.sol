@@ -19,7 +19,7 @@ interface ICouponFactory is ICouponFactoryEvent {
 
     function mintDonateNFT(string memory _name, uint256 _tokenId, uint256 _amount) external;
 
-    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice, string memory _name, string memory _metadataURI) external;
+    function addNewERC1155(string memory _ERC1155name, uint256 _mintPrice,uint256 _totalSupplys, string memory _name, string memory _metadataURI) external;
 
     /*//////////////////////////////////////////////////////////////////////////
                         EXTERNAL CONSTANT FUNCTIONS

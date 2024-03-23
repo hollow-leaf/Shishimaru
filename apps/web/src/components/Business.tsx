@@ -7,6 +7,7 @@ import Image from "next/image";
 interface featureTypes {
   index: number;
   id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   title: string;
   content: string;

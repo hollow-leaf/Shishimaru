@@ -25,7 +25,7 @@ const chainIds = {
   zircuit: 48899,
   "scroll-sepolia-testnet": 534351,
   "op-sepolia": 11155420,
-  "linea-goerli": 59141 ,
+  "linea-goerli": 59140,
 }
 
 // Ensure that we have all the environment variables we need.
@@ -61,7 +61,7 @@ function getChainConfig (chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://sepolia.optimism.io"
       break
     case "linea-goerli":
-      jsonRpcUrl = "https://rpc.sepolia.linea.build"
+      jsonRpcUrl = "https://rpc.goerli.linea.build"
       break
     default:
       jsonRpcUrl = `https://${chain}.infura.io/v3/${infuraApiKey}`
@@ -163,8 +163,8 @@ const config: HardhatUserConfig = {
       network: "zircuit",
       chainId: chainIds["zircuit"],
       urls: {
-        apiURL: "https://explorer.zircuit.com/contract-verifaction",
-        browserURL: "https://explorer.zircuit.com"
+        apiURL: 'https://explorer.zircuit.com/api/contractVerifyHardhat',
+        browserURL: 'https://explorer.zircuit.com',
       }
     },{
       network: "scroll-sepolia-testnet",
@@ -185,7 +185,7 @@ const config: HardhatUserConfig = {
       chainId: chainIds["linea-goerli"],
       urls: {
         apiURL: "https://api-testnet.lineascan.build/api",
-        browserURL: "https://sepolia.lineascan.build"
+        browserURL: "https://goerli.lineascan.build"
       }
     }
     ],
