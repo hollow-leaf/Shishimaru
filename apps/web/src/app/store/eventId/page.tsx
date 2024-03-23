@@ -1,14 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useParams } from "next/navigation";
-
 import ProductIntro from "../../../components/ProductIntro";
 import Divider from "@mui/material/Divider";
 
 function EventsIdPage() {
-  const params = useParams();
-  console.log(params);
   const dbEvent = {
     id: 1,
     displayId: "21",
