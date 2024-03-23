@@ -11,6 +11,7 @@ const nextConfig = {
       "cloudflare-ipfs.com",
       "ipfs.io",
     ],
+    unoptimized: true,
   },
 };
 module.exports = nextConfig;
