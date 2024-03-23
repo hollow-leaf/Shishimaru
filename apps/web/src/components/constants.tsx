@@ -1,5 +1,9 @@
 import {
+  people01,
+  people02,
+  people03,
   people04,
+  people05,
   github,
   send,
   shield,
@@ -55,44 +59,44 @@ export const features = [
 
 export const feedback = [
   {
-    id: "feedback-1",
+    id: 'feedback-1',
     content:
-      "Hello, I am Albert Cheng, a student at National Taiwan University of Electrical Engineering.",
-    name: "Albert Cheng ",
-    title: "National Taiwan University",
+      '',
+    name: 'Solo Lin',
+    title: 'Cathay Financial Holdings',
+    img: people01,
+  },
+  {
+    id: 'feedback-2',
+    content:
+      '',
+    name: 'Jake Kuo',
+    title: 'Cathay Financial Holdings',
+    img: people02,
+  },
+  {
+    id: 'feedback-3',
+    content:
+      'It is usually people in the money business, finance, and international trade that are really rich.',
+    name: 'Alice Hui',
+    title: 'Cathay Financial Holdings',
+    img: people03,
+  },
+  {
+    id: 'feedback-4',
+    content:
+      'It is usually people in the money business, finance, and international trade that are really rich.',
+    name: 'Albert Cheng ',
+    title: 'Cathay Financial Holdings',
     img: people04,
   },
   {
-    id: "feedback-2",
+    id: 'feedback-5',
     content:
-      "Hello, I am Albert Cheng, a student at National Taiwan University of Electrical Engineering.",
-    name: "Albert Cheng ",
-    title: "National Taiwan University",
-    img: people04,
-  },
-  {
-    id: "feedback-3",
-    content:
-      "Hello, I am Albert Cheng, a student at National Taiwan University of Electrical Engineering.",
-    name: "Albert Cheng ",
-    title: "National Taiwan University",
-    img: people04,
-  },
-  {
-    id: "feedback-4",
-    content:
-      "Hello, I am Albert Cheng, a student at National Taiwan University of Electrical Engineering.",
-    name: "Albert Cheng ",
-    title: "National Taiwan University",
-    img: people04,
-  },
-  {
-    id: "feedback-5",
-    content:
-      "Hello, I am Albert Cheng, a student at National Taiwan University of Electrical Engineering.",
-    name: "Albert Cheng ",
-    title: "National Taiwan University",
-    img: people04,
+      'It is usually people in the money business, finance, and international trade that are really rich.',
+    name: 'Sophia  Liang',
+    title: 'Cathay Financial Holdings',
+    img: people05,
   },
 ];
 
